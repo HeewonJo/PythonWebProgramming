@@ -1,0 +1,60 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ko">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" href="{% static 'css/login.css' %}" />
+        <title>로그인 - 에브리타임</title>
+    </head>
+
+    <body>
+        {% comment %} <header>
+            <a href="{% url 'post:home' %}">
+                <div class="logo"><img src="{% static 'img/logo.png' %}" width="210" height="55" /></div>
+            </a>
+        </header> {% endcomment %}
+        <section>
+            <h1>에브리타임</h1>
+            <form method="post" action={% url 'accounts:login' %}>
+            {% csrf_token %}
+            <div class="idpw">
+            <div class="id"><input name="username" id="id_username" type="text" placeholder="아이디" /></div>
+            <div class="pw"><input name="password" id="id_password" type="password" placeholder="비밀번호" /></div>
+            </div>
+            <div class="login"><input type="submit" value="로그인" /></div>
+
+        </form>
+
+        <a href="{% url 'accounts:signup' %}">
+            <div class="create_id">회원가입</div>
+        </a>
+        </section>
+
+        <footer>
+        <div class="sub_info">
+            <div>이용약관</div>
+            <div>개인정보처리방침</div>
+            <div>문의하기</div>
+            <div>&copy; 에브리타임</div>
+        </div>
+        </footer>
+
+        <script>
+        var id = document.querySelector(".id input");
+        var pw = document.querySelector(".pw input");
+        let submit = document.querySelector(".login input[type='submit']");
+
+        var buttonColor = function () {
+            if (id.value === "" || pw.value === "") {
+            submit.style.backgroundColor = "rgb(210,210,210)";
+            } else {
+            submit.style.backgroundColor = "red";
+            }
+        };
+
+        id.addEventListener("input", buttonColor);
+        pw.addEventListener("input", buttonColor);
+        </script>
+    </body>
+</html>

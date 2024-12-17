@@ -1,0 +1,73 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="{% static 'css/signup.css' %}" />
+
+    <title>회원가입</title>
+  </head>
+  <body>
+    <h2>회원가입</h2>
+
+    <div class="give_border">
+      <div class="info">
+        <div class="signup_tilte">에브리타임 회원가입</div>
+        <div class="signup_info">
+          에브리타임 계정으로 <span class="app">캠퍼스픽, 에프리타임</span> 등<br />
+          다양한 대학생 서비스를 모두 이용하실 수 있습니다.
+        </div>
+      </div>
+
+      <form method="post" action={% url 'accounts:signup' %}>
+        {% csrf_token %}
+        <div class="input_info">
+          <div class="input_cate">아이디</div>
+          <input type="text" name="username" id="id_username" placeholder="이름을 입력하세요." />
+        </div>
+        <div class="input_info">
+          <div class="input_cate">닉네임</div>
+          <input type="text" name="nickname" id="id_nickname" placeholder="닉네임을 입력하세요." />
+        </div>
+        <div class="input_info">
+          <div class="input_cate">이메일</div>
+          <input type="text" name="email" id="id_email" placeholder="이메일을 입력하세요." />
+        </div>
+        <div class="input_info">
+          <div class="input_cate">비밀번호</div>
+          <input type="password" name="password1" id="id_password1" placeholder="숫자/문자 조합, 최소 8자 이상" />
+        </div>
+        <div class="input_info">
+          <div class="input_cate">비밀번호 재입력</div>
+          <input type="password" name="password2" id="id_password2" placeholder="비밀번호를 재입력하세요." />
+        </div>
+        <input type="submit" value="회원가입" />
+      </form>
+    </div>
+
+ <script>
+        var inputData = document.querySelectorAll(".input_info input");
+        let submit = document.querySelector("input[type='submit']");
+  
+        function buttonColor() {
+          var allfilled = true;
+          inputData.forEach(function (input) {
+            if (input.value === "") {
+              allfilled = false;
+            }
+          });
+  
+          if (allfilled) {
+            submit.style.backgroundColor = "red";
+          } else {
+            submit.style.backgroundColor = "rgb(210,210,210)";
+          }
+        }
+  
+        inputData.forEach(function (input) {
+          input.addEventListener("input", buttonColor);
+        });
+      </script> 
+</body>
+</html>

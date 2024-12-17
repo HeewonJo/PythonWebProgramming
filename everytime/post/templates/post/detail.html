@@ -1,0 +1,60 @@
+<body>
+  <h2>{{ post.title }}</h2>
+  <br />
+  <h3>{{ post.content }}</h3>
+  <br />
+
+  {% if post.image %}
+  <image width="320" height="240" src="{{ post.image.url }}">
+    {% endif %} {% if post.video %}
+    <video width="320" height="240" controls>
+      <source src="{{ post.video.url }}" type="video/mp4" />
+    </video>
+    {% endif %}
+
+    <h3>{{ post.created_at }}</h3>
+    {% if post.anonymity %}
+    <h5>익명</h5>
+    {% else %}
+    <h5>{{ post.author.nickname }}</h5>
+    {% endif %}
+
+    <a href="{% url 'post:update' post.id %}">수정하기</a>
+    <a href="{% url 'post:delete' post.id %}">삭제하기</a>
+
+    <p>공감 {{ post.like.count }}개</p>
+    <p>스크랩 {{ post.scrap.count }}개</p>
+    {% if request.user in post.like.all %}
+    <a href="{% url 'post:remove-like' post.id %}"><input type="button" value="공감 취소" /></a>
+    {% else %}
+    <a href="{% url 'post:add-like' post.id %}"><input type="button" value="공감" /></a>
+    {% endif %}
+    <br />
+    {% if request.user in post.scrap.all %}
+    <a href="{% url 'post:remove-scrap' post.id %}"><input type="button" value="스크랩 취소" /></a>
+    {% else %}
+    <a href="{% url 'post:add-scrap' post.id %}"><input type="button" value="스크랩" /></a>
+    {% endif %}
+
+    <hr />
+    <h4>댓글</h4>
+    <br />
+    {% for comment in post.comments.all %} {% if comment.anonymity %} 익명 {% else %} {{ comment.author.nickname }} - {% endif %} {{ comment.created_at }}
+    <br />
+    {{ comment.content }}
+    <a href="{% url 'post:delete-comment' post.id comment.id %}">삭제하기</a><br />
+    {% empty %} 댓글이 없습니다 {% endfor %}
+
+    <br />
+    <hr />
+    <br />
+
+    <form method="POST" action="{% url 'post:create-comment' post.id %}">
+      {% csrf_token %} 댓글 - <input type="text" name="content" /><input type="submit" value="작성" />
+      <input type="checkbox" name="anonymity" value="anonymity_true" />익명
+    </form>
+    <hr />
+    <br />
+    <body></body
+  ></image>
+</body>

@@ -1,0 +1,44 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>시작 - 에브리타임</title>
+    <link rel="stylesheet" href="{% static 'css/list.css' %}" />
+  </head>
+<body>
+    {% load humanize %}
+    <h1>에브리타임</h1>
+    <div class="categories">
+        {% for category in categories %}
+            <a href={% url 'post:category' category.slug %}>{{ category.title }}</a>
+        {% endfor %}
+    </div>
+    
+    <br><br>
+    {% if request.user.is_authenticated %}
+        <div class="about_account">
+            <p>닉네임 : {{ user.nickname }}</p>
+            
+
+            <div>
+                <a href="{% url 'accounts:my-page' %}">마이페이지</a>
+                <a href="{% url 'accounts:logout' %}">로그아웃</a>
+            </div>
+        </div>
+        <hr>
+
+    {% else %}
+        <div class="out_state">
+            <a href="{% url 'accounts:signup' %}">회원가입</a>
+            <a href="{% url 'accounts:login' %}">로그인</a>
+        </div>
+        
+    {% endif %}
+    <br><br>
+
+    {% for category in categories %}
+        <h2><a href={% url 'post:category' category.slug %}>{{ category.title }}</a></h2>
+    {% endfor %}
+</body>
